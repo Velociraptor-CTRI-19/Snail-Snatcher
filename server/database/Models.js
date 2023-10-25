@@ -1,7 +1,17 @@
 const { Pool } = require('pg');
+const path = require('path');
 
-const PG_URI =
-  'postgres://ozjhstup:wg0nPKC1L9_PQOksq7allRhTO_0sNWix@suleiman.db.elephantsql.com/ozjhstup';
+const dotenv = require('dotenv');
+
+const env = (process.env.NODE_ENV === 'test') ? path.join(__dirname + '/../../.env.test') : path.join(__dirname, '..', '..', '.env');
+// console.log('env:', env);
+
+dotenv.config({ path: env });
+
+
+
+const PG_URI = process.env.DATABASE_URI;
+console.log(PG_URI);
 
 const pool = new Pool({
   connectionString: PG_URI,

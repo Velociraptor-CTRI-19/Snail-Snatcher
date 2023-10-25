@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
-    "start": "webpack-dev-server --mode development --open --hot & nodemon server/server.js",
+    "dev": "export NODE_ENV=development; webpack-dev-server --mode development --open --hot & nodemon server/server.js",
+    "start": "export NODE_ENV=production; node server/server.js",
     "build": "webpack --mode production"
   },
   "jest": {
@@ -19,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "pg": "^8.11.3",
     "react": "^18.2.0",

@@ -6,6 +6,9 @@ const request = require('supertest');
 
 // designate the server
 const { app, server } = require('../server/server');
+const dotenv = require('dotenv')
+dotenv.config()
+
 
 afterAll(() => {
   server.close();
@@ -88,6 +91,23 @@ describe('Server tests', () => {
           .delete('/buyers/purchaseItem')
         expect(response.status).toBe(200);
       });
+      it('should say an item was purchased if the item exists in the database', async () => {
+        const response = await request(server)
+          .delete('/buyers/purchaseItem')
+            .send({
+              item: 'cheese',
+            })
+          expect(response.body).toEqual({ message: 'cheese was purchased'});
+      });
+      it('should say that it was unable to purchase if the item does not exist in the database', async () => {
+        const response = await request(server)
+        .delete('/buyers/purchaseItem')
+          .send({
+            item: 'diamonds',
+          })
+        expect(response.status).toBe(500);
+        // expect(response.body).toEqual({ message: 'unable to purchase diamonds'});
+      })
     });
   });
 
