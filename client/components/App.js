@@ -10,12 +10,13 @@ import '../styles.css';
 const App = () => {
   return (
     <Router>
-      <NavBar />
+      <NavBar /> 
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/seller' element={<Seller />} />
         <Route path='/buyers' element={<Buyers />} />
         <Route path='/*' element={<NotFound />} />
+         {/* we will need a route to our shopping cart, with its own component-- will mimic buyers component, but only with specific items */}
       </Routes>
     </Router>
   );

@@ -16,6 +16,11 @@ const NavBar = () => {
             <li>
               <Link to='/buyers'> Buyers </Link>
             </li>
+            <li>
+              <Link to='/cart'>
+              {/* <Image src="carts.png"/> */}
+               </Link>
+           </li>
           </ul>
         </nav>
       </header>

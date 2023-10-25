@@ -44,6 +44,7 @@ const Buyers = () => {
             <p>Description: {item.description}</p>
             <p>Price: {item.price}</p>
             <button onClick={() => effect(item)}>Buy!</button>
+            {/* need to add a button to AddtoCart */}
           </li>
         ))}
       </ul>
