@@ -86,9 +86,12 @@ app.delete("/buyers/purchaseItem", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server up & running on port ${PORT}...`);
 });
 
 
-module.exports = app;
+module.exports = {
+  app,
+  server,
+};

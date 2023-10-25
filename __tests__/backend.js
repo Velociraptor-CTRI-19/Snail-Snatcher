@@ -5,33 +5,34 @@
 const request = require('supertest');
 
 // designate the server
-const server = require('../server/server');
+const { app, server } = require('../server/server');
 
-
+afterAll(() => {
+  server.close();
+});
 
 describe('Server tests', () => {
   describe('/', () => {
     describe('GET', () => {
-      it('responds with a 200 status', () => {
-        return request(server)
+      it('responds with a 200 status', async () => {
+        await request(server)
           .get('/')
           .expect(200);
       });
     });
   });
 
+
   describe('/buyers/display', () => {
     describe('GET', () => {
-      it('responds with a 200 status', () => {
-        return request(server)
+      it('responds with a 200 status', async () => {
+        await request(server)
           .get('/buyers/display')
           .expect(200);
       });
     });
   });
 });
-
-
 
 
 // describe('sum function', () => {

@@ -8,6 +8,12 @@
     "start": "webpack-dev-server --mode development --open --hot & nodemon server/server.js",
     "build": "webpack --mode production"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
