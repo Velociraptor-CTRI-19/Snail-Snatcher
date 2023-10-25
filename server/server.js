@@ -12,6 +12,11 @@ app.use(express.json());
 //define routes -- any request that comes in goes straight to the routes
 //have the request be sent to a wildcard and forward that to the index.html
 
+// dummy route for testing purposes
+app.get('/', (req, res) => {
+  res.status(200).send();
+});
+
 /*
  ********************************* CHANGES: Serving index.html to / route ************************************
  */
@@ -84,3 +89,6 @@ app.delete("/buyers/purchaseItem", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server up & running on port ${PORT}...`);
 });
+
+
+module.exports = app;
