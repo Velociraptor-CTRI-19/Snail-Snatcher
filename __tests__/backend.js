@@ -15,9 +15,9 @@ describe('Server tests', () => {
   describe('/', () => {
     describe('GET', () => {
       it('responds with a 200 status', async () => {
-        await request(server)
+        const response = await request(server)
           .get('/')
-          .expect(200);
+        expect(response.status).toBe(200);
       });
     });
   });
@@ -26,20 +26,95 @@ describe('Server tests', () => {
   describe('/buyers/display', () => {
     describe('GET', () => {
       it('responds with a 200 status', async () => {
-        await request(server)
+        const response = await request(server)
           .get('/buyers/display')
-          .expect(200);
+        expect(response.status).toBe(200);
+      });
+      it('has a content-type of application/json', async () => {
+        const response = await request(server)
+          .get('/buyers/display')
+        expect(response.header['content-type']).toContain('application/json');
+      });
+      it('has a request body of an array', async () => {
+        const response = await request(server)
+          .get('/buyers/display')
+        expect(Array.isArray(response.body)).toBeTruthy();
+      });
+      it('has the right information on the response body', async () => {
+        const response = await request(server)
+          .get('/buyers/display')
+        expect(response.body).toEqual([
+          {
+            item: 'iPhone 6S',
+            description: 'old phone. still works',
+            price: 120,
+            sellers_id: 45
+          },
+          {
+            item: 'Oxford Dress Shoes',
+            description: 'Timeless oxford dress shoes for a touch of class.',
+            price: 47,
+            sellers_id: 48
+          },
+          {
+            item: 'Trench Coat',
+            description: 'A classic trench coat to stay stylish in any weather.',
+            price: 59,
+            sellers_id: 49
+          },
+          {
+            item: 'Cordless Drill Kit',
+            description: 'A powerful cordless drill kit for your home projects.',
+            price: 39,
+            sellers_id: 50
+          },
+          {
+            item: 'Workbench',
+            description: 'Sturdy workbench for your garage workspace.',
+            price: 77,
+            sellers_id: 51
+          },
+          { item: 'cup', description: 'small', price: 5, sellers_id: 52 },
+          { item: 'bowl', description: 'big', price: 10, sellers_id: 53 }
+        ])
+      })
+    });
+  });
+
+  describe('/buyers/purchaseItem', () => {
+    describe('DELETE', () => {
+      it('responds with a status of 200', async () => {
+        const response = await request(server)
+          .delete('/buyers/purchaseItem')
+        expect(response.status).toBe(200);
       });
     });
   });
+
+  describe('/sellers/addItems', () => {
+    describe('POST', () => {
+      it('responds with a status of 200', async () => {
+        const response = await request(server)
+          .post('/sellers/addItems')
+          .send({
+            item: 'cheese',
+            description: 'declicious',
+            price: '100',
+          })
+        console.log('response.body: ',response.body);
+        expect(response.status).toBe(200);
+      });
+      it('adds an item to the database', async () => {
+        const response = await request(server)
+          .post('/sellers/addItems')
+          .send({
+            item: 'cheese',
+            description: 'declicious',
+            price: '100',
+          })
+        expect(response.body).toEqual({message: 'Item added'});
+      });
+    });
+  });
+
 });
-
-
-// describe('sum function', () => {
-//   it('adds numbers together', () => {
-//     const sum = (a, b) => {
-//       return a + b;
-//     };
-//     expect(sum(1, 2)).toEqual(3);
-//   });
-// })
