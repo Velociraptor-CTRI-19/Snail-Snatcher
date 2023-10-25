@@ -4,11 +4,16 @@
 // const { it } = require('node:test');
 const request = require('supertest');
 
+const db = require("../server/database/Models.js");
+
 // designate the server
 const { app, server } = require('../server/server');
 const dotenv = require('dotenv')
 dotenv.config()
 
+beforeAll(() => {
+  db.query('DELETE FROM sellers');
+});
 
 afterAll(() => {
   server.close();
