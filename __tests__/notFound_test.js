@@ -1,21 +1,17 @@
 const path = require('path');
 import React from 'react';
-import App from '../client/components/App';
-import NotFound from '../client/components/NotFound.js'
-// import userEvent from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
+import { NotFound } from '../client/components/NotFound';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'
 
 
 describe('Not Found', () => {
-    // let component;
 
-    // beforeAll(() => {
-    //     component = render(<NotFound />)
-    // });
-
-    test('test', () => {
-        // somehow expect the inner text to say 'The page you are looking for was not found!'
-        const { getByText } = render(<NotFound />)
-        expect(getByText('The page you are looking for was not found!')).toBeInTheDocument();
-    })
-});
+test('it should contain the appropriate text', () => {
+    render(<NotFound />);
+    expect(screen.getByText('The page you are looking for was not found!')).toBeInTheDocument();
+  });
+})
+//screen is what is showing
+//getByText is content type (inject content here)
+//tobeintheDocument can be left open 

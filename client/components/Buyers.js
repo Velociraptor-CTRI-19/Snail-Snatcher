@@ -27,12 +27,21 @@ const Buyers = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log('data: ', data);
+        console.log('data: ', data)
+      // .then(setItems(data));
+      
       })
       .catch(err => {
         console.log('Error with purchaseItem in buyers.js', err);
       });
   };
+
+  // function listings()=> {
+  //   fetch('/buyers/display')
+  //     .then(res => res.json())
+  //     .then(data => setItems(data))
+  //     .catch(err => console.log('Event fetching data:', err));
+  // }, []);
 
   return (
     <>
