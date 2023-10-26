@@ -4,7 +4,7 @@
 // const { it } = require('node:test');
 const request = require('supertest');
 
-const db = require("../server/database/Models.js");
+const db = require('../server/models/Models');
 
 // designate the server
 const { app, server } = require('../server/server');

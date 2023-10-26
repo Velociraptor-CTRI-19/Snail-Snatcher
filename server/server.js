@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const PORT = 3000;
 
-const db = require("./database/Models.js");
+const db = require("./models/Models.js");
 
 //handle parsing request body
 app.use(express.json());
@@ -85,6 +85,26 @@ app.delete("/buyers/purchaseItem", (req, res) => {
     .catch((err) => {
       res.status(500).json({ message: `unable to purchase ${item}`})
     });
+});
+
+// global error handler
+app.use((err, req, res, next) => {
+  const defaultError = {
+    log: 'An error occurred.',
+    status: 500,
+    message: {err: 'Watch out for those errors.'}
+  };
+
+  const newError = {
+    ...defaultError,
+    err
+  };
+
+  // write the error to the server's console
+  console.log(newError);
+
+  // send a response back to the client
+  res.status(newError.status).json(newError.message.err);
 });
 
 const server = app.listen(PORT, () => {
