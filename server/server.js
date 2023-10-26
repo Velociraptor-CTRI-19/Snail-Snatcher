@@ -13,9 +13,9 @@ app.use(express.json());
 //have the request be sent to a wildcard and forward that to the index.html
 
 // dummy route for testing purposes
-app.get('/', (req, res) => {
-  res.status(200).send();
-});
+// app.get('/', (req, res) => {
+//   res.status(200).send();
+// });
 
 /*
  ********************************* CHANGES: Serving index.html to / route ************************************
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 app.post("/sellers/addItems", (req, res) => {
   const { item, description, price } = req.body;
   // console.log('req.body', req.body);
-  console.log("got into sellers/addItems");
+  // console.log("got into sellers/addItems");
 
   const text = `
     INSERT INTO sellers (item, description, price)
@@ -47,9 +47,9 @@ app.post("/sellers/addItems", (req, res) => {
 
 //get request to display
 app.get("/buyers/display", (req, res) => {
-  console.log("entered buyers/display");
+  // console.log("entered buyers/display");
   const text = `
-    SELECT * FROM sellers;
+    SELECT description, item, price FROM sellers;
     `;
 
   db.query(text)
@@ -69,7 +69,7 @@ app.get("/buyers/display", (req, res) => {
 app.delete("/buyers/purchaseItem", (req, res) => {
   console.log("entered buyers/purchaseItem");
   const { item } = req.body;
-  console.log("item: ", item);
+  // console.log("item: ", item);
 
   const text = `
         DELETE FROM sellers
@@ -79,15 +79,17 @@ app.delete("/buyers/purchaseItem", (req, res) => {
   const values = [item];
   db.query(text, values)
     .then((response) => {
+      // console.log('.then ~ response:', response);
       res.status(200).json({ message: `${item} was purchased` });
     })
     .catch((err) => {
-      res.status(500).json({ message: `unable to purchase ${item}` });
+      res.status(500).json({ message: `unable to purchase ${item}`})
     });
 });
 
 const server = app.listen(PORT, () => {
   console.log(`Server up & running on port ${PORT}...`);
+  console.log('NODE_ENV: ', process.env.NODE_ENV);
 });
 
 

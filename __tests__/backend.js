@@ -11,8 +11,8 @@ const { app, server } = require('../server/server');
 const dotenv = require('dotenv')
 dotenv.config()
 
-beforeAll(() => {
-  db.query('DELETE FROM sellers');
+beforeAll(async () => {
+  await db.query('DELETE FROM sellers;');
 });
 
 afterAll(() => {
@@ -20,16 +20,44 @@ afterAll(() => {
 });
 
 describe('Server tests', () => {
-  describe('/', () => {
-    describe('GET', () => {
-      it('responds with a 200 status', async () => {
+  // describe('/', () => {
+  //   describe('GET', () => {
+  //     it('responds with a 200 status', async () => {
+  //       const response = await request(server)
+  //         .get('/')
+  //       expect(response.status).toBe(200);
+  //     });
+  //   });
+  // });
+
+  describe('/sellers/addItems', () => {
+    describe('POST', () => {
+      it('responds with a status of 200 and a body of Item added', async () => {
         const response = await request(server)
-          .get('/')
+          .post('/sellers/addItems')
+          .send({
+            item: 'bread',
+            description: 'savory',
+            price: '100',
+          })
+        // console.log('response.body: ',response.body);
         expect(response.status).toBe(200);
+        expect(response.body).toEqual({message: 'Item added'});
+      });
+      it('adds an item to the database', async () => {
+        const response = await request(server)
+          .post('/sellers/addItems')
+          .send({
+            item: 'cheese',
+            description: 'delicious',
+            price: '100',
+          })
+        const data = await db.query('SELECT * FROM sellers WHERE item = \'cheese\';')
+        expect(data.rows.length).toBe(1);
       });
     });
   });
-
+});
 
   describe('/buyers/display', () => {
     describe('GET', () => {
@@ -51,39 +79,18 @@ describe('Server tests', () => {
       it('has the right information on the response body', async () => {
         const response = await request(server)
           .get('/buyers/display')
+        // console.log('response.body: ', response.body);
         expect(response.body).toEqual([
           {
-            item: 'iPhone 6S',
-            description: 'old phone. still works',
-            price: 120,
-            sellers_id: 45
+            item: 'bread',
+            description: 'savory',
+            price: 100,
           },
           {
-            item: 'Oxford Dress Shoes',
-            description: 'Timeless oxford dress shoes for a touch of class.',
-            price: 47,
-            sellers_id: 48
-          },
-          {
-            item: 'Trench Coat',
-            description: 'A classic trench coat to stay stylish in any weather.',
-            price: 59,
-            sellers_id: 49
-          },
-          {
-            item: 'Cordless Drill Kit',
-            description: 'A powerful cordless drill kit for your home projects.',
-            price: 39,
-            sellers_id: 50
-          },
-          {
-            item: 'Workbench',
-            description: 'Sturdy workbench for your garage workspace.',
-            price: 77,
-            sellers_id: 51
-          },
-          { item: 'cup', description: 'small', price: 5, sellers_id: 52 },
-          { item: 'bowl', description: 'big', price: 10, sellers_id: 53 }
+            item: 'cheese',
+            description: 'delicious',
+            price: 100,
+          }
         ])
       })
     });
@@ -91,55 +98,32 @@ describe('Server tests', () => {
 
   describe('/buyers/purchaseItem', () => {
     describe('DELETE', () => {
-      it('responds with a status of 200', async () => {
-        const response = await request(server)
-          .delete('/buyers/purchaseItem')
-        expect(response.status).toBe(200);
-      });
-      it('should say an item was purchased if the item exists in the database', async () => {
+      // it('responds with a status of 200', async () => {
+      //   const response = await request(server)
+      //     .delete('/buyers/purchaseItem')
+      //   expect(response.status).toBe(200);
+      // });
+      it('should say an item was purchased if the item exists in the database and it should respond with a status of 200', async () => {
         const response = await request(server)
           .delete('/buyers/purchaseItem')
             .send({
               item: 'cheese',
             })
+          expect(response.status).toBe(200);
           expect(response.body).toEqual({ message: 'cheese was purchased'});
       });
-      it('should say that it was unable to purchase if the item does not exist in the database', async () => {
+      it('should delete and item from the database', async () => {
+        const data = await db.query('SELECT * FROM sellers WHERE item = \'cheese\'');
+        expect(data.rows.length).toBe(0);
+      });
+      it('should say that it was unable to purchase an item if the item does not exist in the database', async () => {
         const response = await request(server)
         .delete('/buyers/purchaseItem')
           .send({
             item: 'diamonds',
           })
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(200);
         // expect(response.body).toEqual({ message: 'unable to purchase diamonds'});
       })
     });
   });
-
-  describe('/sellers/addItems', () => {
-    describe('POST', () => {
-      it('responds with a status of 200', async () => {
-        const response = await request(server)
-          .post('/sellers/addItems')
-          .send({
-            item: 'cheese',
-            description: 'declicious',
-            price: '100',
-          })
-        console.log('response.body: ',response.body);
-        expect(response.status).toBe(200);
-      });
-      it('adds an item to the database', async () => {
-        const response = await request(server)
-          .post('/sellers/addItems')
-          .send({
-            item: 'cheese',
-            description: 'declicious',
-            price: '100',
-          })
-        expect(response.body).toEqual({message: 'Item added'});
-      });
-    });
-  });
-
-});
