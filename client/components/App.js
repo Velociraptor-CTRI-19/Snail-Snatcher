@@ -5,6 +5,9 @@ import { Seller } from './Seller';
 import Buyers from './Buyers';
 import NavBar from './NavBar';
 import { NotFound } from './NotFound';
+// import SignIn from './SignIn';
+
+
 import '../styles.css';
 
 const App = () => {
@@ -16,6 +19,7 @@ const App = () => {
         <Route path='/seller' element={<Seller />} />
         <Route path='/buyers' element={<Buyers />} />
         <Route path='/*' element={<NotFound />} />
+        {/* <Route path='./SignIn.html'/> */}
          {/* we will need a route to our shopping cart, with its own component-- will mimic buyers component, but only with specific items */}
       </Routes>
     </Router>

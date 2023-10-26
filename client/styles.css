@@ -69,4 +69,8 @@ main button {
   font-family: 'Trebuchet MS', sans-serif;
 }
 
+#signin {
+  width: 300px;
+  height: 300px;
+}
 

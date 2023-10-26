@@ -17,10 +17,8 @@ const NavBar = () => {
               <Link to='/buyers'> Buyers </Link>
             </li>
             <li>
-              <Link to='/cart'>
-              {/* <Image src="carts.png"/> */}
-               </Link>
-           </li>
+              <Link to='/signIn'> Sign In </Link>
+            </li>
           </ul>
         </nav>
       </header>
@@ -29,3 +27,9 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+{/* <li>
+              <Link to='/cart'>
+              {/* <Image src="carts.png"/> */}
+               {/* </Link>
+          //  </li> */} 

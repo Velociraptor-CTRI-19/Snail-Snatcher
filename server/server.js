@@ -22,7 +22,7 @@ app.use(express.json());
  ********************************* CHANGES: Serving index.html to / route ************************************
  */
 // app.use(express.static(path.join("../build")));
-// app.use("/", express.static(path.join(__dirname, "../client/index.html")));
+app.use("/signIn", express.static(path.join(__dirname, "../client/components/SignIn.html")));
 
 //post request to add items
 app.post("/sellers/addItems", controller.addItems, (req, res) => {
