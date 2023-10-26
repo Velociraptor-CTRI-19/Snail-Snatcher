@@ -4,12 +4,12 @@ const controller = {};
 
 controller.addItems = (req, res, next) => {
   const { item, description, price } = req.body;
+  const values = [item, description, price];
+  const text = 'INSERT INTO sellers (item, description, price) VALUES ($1, $2, $3);';
+    // `INSERT INTO sellers (item, description, price)
+    // VALUES ('${item}', '${description}', ${price});`;
 
-  const text = 
-    `INSERT INTO sellers (item, description, price)
-    VALUES ('${item}', '${description}', ${price});`;
-
-  db.query(text)
+  db.query(text, values)
     .then((result) => {
       next();
     })
