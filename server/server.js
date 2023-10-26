@@ -35,8 +35,8 @@ app.get("/buyers/display", controller.buyersDisplay, (req, res) => {
 });
 
 //delete request to purchaseItem
-app.delete("/buyers/purchaseItem", controller.purchaseItem, (req, res) => {
-  res.status(200).json(res.locals.message);
+app.delete("/buyers/purchaseItem", controller.purchaseItem, controller.buyersDisplay, (req, res) => {
+  res.status(200).json({message: res.locals.message, data: res.locals.dbInfo});
 });
 
 // global error handler
@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 
   const newError = {
     ...defaultError,
-    err
+    ...err
   };
 
   // write the error to the server's console

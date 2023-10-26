@@ -110,7 +110,7 @@ describe('Server tests', () => {
               item: 'cheese',
             })
           expect(response.status).toBe(200);
-          expect(response.body).toEqual({ message: 'cheese was purchased'});
+          expect(response.body).toEqual({ message: 'cheese was purchased', data: [{item: 'bread', description: 'savory', price: 100}]});
       });
       it('should delete and item from the database', async () => {
         const data = await db.query('SELECT * FROM sellers WHERE item = \'cheese\'');
@@ -123,7 +123,7 @@ describe('Server tests', () => {
             item: 'diamonds',
           })
         expect(response.status).toBe(200);
-        // expect(response.body).toEqual({ message: 'unable to purchase diamonds'});
+        expect(response.body).toEqual({ message: 'unable to purchase diamonds', data: [{item: 'bread', description: 'savory', price: 100}]});
       })
     });
   });

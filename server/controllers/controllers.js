@@ -6,8 +6,6 @@ controller.addItems = (req, res, next) => {
   const { item, description, price } = req.body;
   const values = [item, description, price];
   const text = 'INSERT INTO sellers (item, description, price) VALUES ($1, $2, $3);';
-    // `INSERT INTO sellers (item, description, price)
-    // VALUES ('${item}', '${description}', ${price});`;
 
   db.query(text, values)
     .then((result) => {
@@ -44,7 +42,17 @@ controller.purchaseItem = (req, res, next) => {
   const values = [item];
   db.query(text, values)
     .then((response) => {
-      res.locals.message = {message: `${item} was purchased`};
+      // console.log('.then ~ response:', response);
+      if (response.rowCount === 0) {
+        res.locals.deleted = false;
+        res.locals.message = `unable to purchase ${item}`;
+      }
+      // write logic so that different responses are given depending on whether something was deleted or not
+      else {
+        res.locals.deleted = true;
+        res.locals.message = `${item} was purchased`;
+      }
+
       next();
     })
     .catch((err) => next({
