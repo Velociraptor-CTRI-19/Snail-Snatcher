@@ -9,7 +9,10 @@ const Buyers = () => {
   useEffect(() => {
     fetch('/buyers/display')
       .then(res => res.json())
-      .then(data => setItems(data))
+      .then(data => {
+        console.log(data) 
+        setItems(data)
+      })
       .catch(err => console.log('Event fetching data:', err));
   }, []);
 
@@ -28,13 +31,14 @@ const Buyers = () => {
       .then(res => res.json())
       .then(data => {
         console.log('data: ', data)
-      // .then(setItems(data));
-      
+        setItems(data.data)
       })
       .catch(err => {
         console.log('Error with purchaseItem in buyers.js', err);
       });
   };
+
+
 
   // function listings()=> {
   //   fetch('/buyers/display')
